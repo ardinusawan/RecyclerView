@@ -27,6 +27,7 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
 import com.example.android.trackmysleepquality.R
 import com.example.android.trackmysleepquality.database.SleepDatabase
+import com.example.android.trackmysleepquality.database.SleepNightAdapter
 import com.example.android.trackmysleepquality.databinding.FragmentSleepTrackerBinding
 import com.google.android.material.snackbar.Snackbar
 
@@ -94,6 +95,16 @@ class SleepTrackerFragment : Fragment() {
                 // Reset state to make sure we only navigate once, even if the device
                 // has a configuration change.
                 sleepTrackerViewModel.doneNavigating()
+            }
+        })
+
+        val adapter = SleepNightAdapter()
+
+        binding.sleepList.adapter = adapter
+
+        sleepTrackerViewModel.nights.observe(this, Observer {
+            it?.let {
+                adapter.data = it
             }
         })
 
